@@ -26,7 +26,7 @@ class Quiz(models.Model):
 
 
 class Record(models.Model):
-    time = models.TimeField(auto_now=False, auto_now_add=False)
+    time = models.CharField(max_length=200)
     user = models.CharField(max_length=200)
     device = models.CharField(max_length=200)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)

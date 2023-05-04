@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User, Group
 from backend.models import Country, Quiz, Record
 from rest_framework import serializers
 
@@ -12,5 +11,9 @@ class QuizSerializer(serializers.HyperlinkedModelSerializer):
         model = Quiz
         fields = ['nbr_question', 'name', 'continents', 'difficulty', 'answer_difficulty', 'type_questions']
 
+class RecordSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Record
+        fields = ['time', 'user', 'device', 'quiz', 'points']
 
 

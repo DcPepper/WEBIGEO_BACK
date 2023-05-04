@@ -22,6 +22,7 @@ from rest_framework import routers, serializers, viewsets
 router = routers.DefaultRouter()
 router.register(r'country', views.CountryViewSet, basename='country')
 router.register(r'quiz', views.QuizViewSet, basename='quiz')
+router.register(r'record', views.RecordViewSet, basename='record')
 
 
 urlpatterns = [
