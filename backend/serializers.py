@@ -9,7 +9,7 @@ class CountrySerializer(serializers.HyperlinkedModelSerializer):
 class QuizSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Quiz
-        fields = ['nbr_question', 'name', 'continents', 'difficulty', 'answer_difficulty', 'type_questions']
+        fields = ['nbr_question', 'name', 'continents', 'difficulty', 'answer_difficulty', 'type_questions', 'pk']
 
 class RecordSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
