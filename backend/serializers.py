@@ -4,7 +4,7 @@ from rest_framework import serializers
 class CountrySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Country
-        fields = ['name', 'shape', 'flag', 'continent', 'capitale', 'pk']
+        fields = ['name', 'shape', 'flag', 'continent', 'capitale', 'pk', 'lat', 'lon']
 
 class QuizSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

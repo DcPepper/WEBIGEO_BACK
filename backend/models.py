@@ -8,6 +8,8 @@ class Country(models.Model):
     continent = models.CharField(max_length=200)
     capitale = models.CharField(max_length=200)
     iso = models.CharField(max_length=3, primary_key=True)
+    lat = models.FloatField(default=0)
+    lon = models.FloatField(default=0)
     
 
     def __str__(self) -> str:

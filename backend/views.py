@@ -25,7 +25,7 @@ class CountryViewSet(ReadOnlyModelViewSet):
         return queryset
     
 
-class QuizViewSet(ReadOnlyModelViewSet):
+class QuizViewSet(ModelViewSet):
 
     serializer_class = QuizSerializer
     queryset = Quiz.objects.all()
