@@ -13,7 +13,7 @@ class Country(models.Model):
     
 
     def __str__(self) -> str:
-        return f"La capitale de {self.name} est {self.capitale}."
+        return f"Capital: {self.capitale}"
 
 class Quiz(models.Model):
     nbr_question = models.IntegerField()

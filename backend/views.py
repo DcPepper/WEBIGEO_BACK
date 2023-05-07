@@ -21,6 +21,7 @@ class CountryViewSet(ReadOnlyModelViewSet):
         continent = self.request.GET.get('continent')
         if continent is not None:
             curr_continent = filter(lambda cont: cont in continent.split('-'), ['europe', 'namerica', 'samerica', 'africa', 'oceania', 'asia'])
+            
             queryset = queryset.filter(reduce (lambda x,y: x | y, [Q(continent = cont) for cont in curr_continent]))
         return queryset
     
