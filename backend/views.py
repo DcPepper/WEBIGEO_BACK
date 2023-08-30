@@ -57,7 +57,7 @@ class RecordViewSet(ModelViewSet):
 
         # Compare the value of 'points' in the form data with the 'nbr' value of the Quiz object.
         points = int(form_data['points'])
-        if points > quiz_nbr:
+        if 0 > points > quiz_nbr:
             return Response({'error': "Points cannot be greater than the quiz maximum."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Create the Record object
