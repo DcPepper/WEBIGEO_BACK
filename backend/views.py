@@ -7,7 +7,10 @@ from django.db.models import Q
 from rest_framework.response import Response
 
 from functools import reduce
+from rest_framework.exceptions import NotFound
 
+def error404(request):
+    raise NotFound(detail="Error 404, page not found", code=404)
 
 class CountryViewSet(ReadOnlyModelViewSet):
     """
