@@ -52,13 +52,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+# To modify when production
+CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']
 
+"""
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
      'http://192.168.1.32:3000',
      'http://192.168.1.28:3000',
      'http://192.168.1.14:3000'
 ]
+"""
 
 ROOT_URLCONF = 'mysite.urls'
 
