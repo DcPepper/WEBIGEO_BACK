@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from functools import reduce
 from rest_framework.exceptions import NotFound
 
-def error404(request):
+def error404(request, exception):
     raise NotFound(detail="Error 404, page not found", code=404)
 
 class CountryViewSet(ReadOnlyModelViewSet):
