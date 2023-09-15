@@ -21,7 +21,7 @@ from rest_framework import routers, serializers, viewsets
 from django.conf.urls import (
   handler400, handler403, handler404, handler500)
 
-handler404 = views.error404
+#handler404 = views.error404
 
 router = routers.DefaultRouter()
 router.register(r'country', views.CountryViewSet, basename='country')
