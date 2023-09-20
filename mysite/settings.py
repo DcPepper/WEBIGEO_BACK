@@ -145,3 +145,6 @@ REST_FRAMEWORK = {
     
 }
 
+# SSL / TLS
+
+SECURE_SSL_REDIRECT = True
