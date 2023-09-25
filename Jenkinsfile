@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     echo "Running Docker container: $DOCKER_BACK"
-                    sh "docker run -d -p 3021:3000 --name $DOCKER_BACK $DOCKER_IMAGE:$DOCKER_TAG"
+                    sh "docker run -d -p 3021:8000 --name $DOCKER_BACK -v /mnt/data:/mnt/data $DOCKER_IMAGE:$DOCKER_TAG"
                     sh "docker ps"
                 }
             }
