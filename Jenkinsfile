@@ -9,10 +9,10 @@ pipeline {
         stage("Back End image") {
             steps {
                 script {
-                    sh "docker stop $DOCKER_BACK"
-                    sh "docker rm $DOCKER_BACK"
+                    //sh "docker stop $DOCKER_BACK"
+                    //sh "docker rm $DOCKER_BACK"
                     echo "Building Docker image: $DOCKER_IMAGE:$DOCKER_TAG"
-                    //sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG -f Dockerfile . --no-cache"
+                    sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG -f Dockerfile . --no-cache"
                 }
             }
         }
