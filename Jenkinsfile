@@ -87,18 +87,18 @@ pipeline {
             }
         }
 
-        stage("Invoking another pipeline") {
-    steps {
-        def main_pipeline = build job: 'WEBIGEO', parameters: [
-            booleanParam(name: 'Docker_Build_Back_End_Image', value: true),
-            booleanParam(name: 'Pushing_the_Back_End_image_to_DockerHub', value: true),
-            booleanParam(name: 'Deployment_in_webigeo', value: true)
-        ]
-
-        main_pipeline.waitForCompletion()
-    }
-}
-
+       stage("Invoking another pipeline") {
+            steps {
+                script {
+                    def main_pipeline = build job: 'WEBIGEO', parameters: [
+                        booleanParam(name: 'Docker_Build_Back_End_Image', value: true),
+                        booleanParam(name: 'Pushing_the_Back_End_image_to_DockerHub', value: true),
+                        booleanParam(name: 'Deployment_in_webigeo', value: true)
+                    ]
+                    main_pipeline.waitForCompletion("Waiting for the WEBIGEO pipeline to complete")
+                }
+            }
+        }
 
         stage("End") {
             steps {
