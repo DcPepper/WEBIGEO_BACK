@@ -63,7 +63,7 @@ pipeline {
                     echo "Testing application at $url"
                     
                     // Use 'timeout' to prevent 'curl' from running indefinitely
-                    def response = sh(script: "curl -i $url", returnStatus: true).trim()
+                    def response = sh(script: "curl -i $url", returnStatus: true)
                     echo "The response of the url : ${response}"
                     if (response != 0) {
                         error "HTTP request to $url failed, check the URL and try again."
