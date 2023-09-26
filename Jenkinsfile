@@ -10,7 +10,7 @@ pipeline {
         stage("Clean the containers"){
             steps{
                 script{
-                    def container = sh(script: 'docker ps',returnStatus: true, returnStdout: true)
+                    def container = sh(script: 'docker ps',returnStdout: true).trim()
 
                     echo "This is the output : ${container}"
 
