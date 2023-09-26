@@ -63,18 +63,12 @@ pipeline {
                     echo "Testing application at $url"
                     
                     // Use 'timeout' to prevent 'curl' from running indefinitely
-                    def response = sh(script: "curl -i $url", returnStatus: true)
+                    def response = sh(script: "curl -i $url | grep -q 'HTTP/1.1 200 OK' ", returnStatus: true)
                     echo "The response of the url : ${response}"
                     if (response != 0) {
                         error "HTTP request to $url failed, check the URL and try again."
                     } else {
-                        def statusCode = sh(script: "curl -s -o /dev/null -w '%{http_code}' $url", returnStatus: true)
-                        echo"This is the test case : ${statusCode}"
-                        if (statusCode == 0) {
-                            echo "HTTP request to $url was successful. Status code: $statusCode"
-                        } else {
-                            error "HTTP request to $url failed with status code $statusCode"
-                        }
+                        echo "HTTP request to $url was sucessfull :: status code $response"
                     }
                 }
             }
@@ -95,8 +89,17 @@ pipeline {
 
         stage("Invoking another pipeline") {
             steps {
-                echo "Triggering another pipeline job"
-                build job: 'WEBIGEO', parameters: [string(name: 'Stages_to_run', value: 'Docker_Build_Back_End_Image,Pushing_the_Back_End_image_to_DockerHub,Deployment in webigeo')], wait: true
+                def main_pipeline = build job: 'WEBIGEO', parameters:[
+                    [$class: 'A',name:'Docker_Build_Back_End_Image',value:'true'],
+                    [$class: 'B',name:'Pushing_the_Back_End_image_to_DockerHub',value='true'],
+                    [$class: 'C',name:'Deployment in webigeo',value='true']
+                ]
+
+                main_pipeline.waitForCompletion()
+
+
+                //echo "Triggering another pipeline job"
+                //build job: 'WEBIGEO', parameters: [string(name: 'Stages_to_run', value: 'Docker_Build_Back_End_Image,Pushing_the_Back_End_image_to_DockerHub,Deployment in webigeo')], wait: true
             }
         }
 
