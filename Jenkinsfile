@@ -14,7 +14,7 @@ pipeline {
 
                     echo "This is the output : ${container}"
 
-                    if (container == 0){
+                    if (container.contains(env.DOCKER_BACK)){
                         sh "docker stop $DOCKER_BACK"
                         sh "docker rm $DOCKER_BACK"
                         sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG"
@@ -96,7 +96,7 @@ pipeline {
         stage("Invoking another pipeline") {
             steps {
                 echo "Triggering another pipeline job"
-                build job: 'WEBIGEO', parameters: [string(name: 'Stages_to_run', value: "Docker_Build_Back_End_Image,Pushing_the_Back_End_image_to_DockerHub,Deployment in webigeo")], wait: true
+                build job: 'WEBIGEO', parameters: [string(name: 'Stages_to_run', value: 'Docker_Build_Back_End_Image,Pushing_the_Back_End_image_to_DockerHub,Deployment in webigeo')], wait: true
             }
         }
 
