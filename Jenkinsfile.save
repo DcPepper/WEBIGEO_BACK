@@ -6,7 +6,29 @@ pipeline {
         DOCKER_BACK = "Back_Container"
     }
     stages {
-        stage("Back End image") {
+        
+        stage("Clean the containers"){
+            steps{
+                script{
+                    def container = sh(script: 'docker ps',returnStatus: true, returnStdout: true)
+
+                    echo "This is the output : ${container}"
+
+                    if (container == 0){
+                        sh "docker stop $DOCKER_BACK"
+                        sh "docker rm $DOCKER_BACK"
+                        sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG"
+                    }
+                    else{
+                        echo "The container is clean"
+                    }
+                }
+            }
+        }
+
+
+
+        stage("Building Back End image") {
             steps {
                 script {
                     //sh "docker stop $DOCKER_BACK"
@@ -41,8 +63,8 @@ pipeline {
                     echo "Testing application at $url"
                     
                     // Use 'timeout' to prevent 'curl' from running indefinitely
-                    def response = sh(script: "timeout 30 curl -i $url", returnStatus: true)
-                    echo "${response}"
+                    def response = sh(script: "timeout 30 curl -i $url", returnStatus: true,returnStdout: true)
+                    echo "The response of the url : ${response}"
                     if (response != 0) {
                         error "HTTP request to $url failed, check the URL and try again."
                     } else {

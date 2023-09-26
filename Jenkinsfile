@@ -96,7 +96,7 @@ pipeline {
         stage("Invoking another pipeline") {
             steps {
                 echo "Triggering another pipeline job"
-                build job: 'WEBIGEO', parameters: [string(name: 'param1', value: "value1")], wait: true
+                build job: 'WEBIGEO', parameters: [string(name: 'Stages_to_run', value: "Docker_Build_Back_End_Image,Pushing_the_Back_End_image_to_DockerHub,Deployment in webigeo")], wait: true
             }
         }
 
