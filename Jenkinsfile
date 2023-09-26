@@ -95,7 +95,7 @@ pipeline {
                         booleanParam(name: 'Deployment_in_webigeo', value: true)
                     ]
 
-        main_pipeline.waitForCompletion()
+                    main_pipeline.waitForCompletion()
 
 
                 //echo "Triggering another pipeline job"
