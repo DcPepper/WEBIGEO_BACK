@@ -10,7 +10,7 @@ pipeline {
         stage("Clean the containers"){
             steps{
                 script{
-                    def container = sh(script: 'docker ps').trim()
+                    def container = sh(script: 'docker ps',returnStdout=true).trim()
                     echo "${container}"
                     if (container.contains(env.DOCKER_BACK)){
                         sh "docker stop $DOCKER_BACK"
