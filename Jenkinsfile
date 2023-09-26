@@ -6,7 +6,27 @@ pipeline {
         DOCKER_BACK = "Back_Container"
     }
     stages {
-        stage("Back End image") {
+        
+        stage("Clean the containers"){
+            steps{
+                script{
+                    def container = sh(script: 'docker ps',returnStatus: true).trim()
+
+                    if (container.contains($DOCKER_BACK)){
+                        sh "docker stop $DOCKER_BACK"
+                        sh "docker rm $DOCKER_BACK"
+                        sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG"
+                    }
+                    else{
+                        echo "The container is clean"
+                    }
+                }
+            }
+        }
+
+
+
+        stage("Building Back End image") {
             steps {
                 script {
                     //sh "docker stop $DOCKER_BACK"
