@@ -11,9 +11,7 @@ pipeline {
             steps{
                 script{
                     def container = sh(script: 'docker ps').trim()
-
                     echo "${container}"
-
                     if (container.contains(env.DOCKER_BACK)){
                         sh "docker stop $DOCKER_BACK"
                         sh "docker rm $DOCKER_BACK"
