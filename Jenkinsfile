@@ -12,7 +12,7 @@ pipeline {
                 script{
                     def container = sh(script: 'docker ps',returnStatus: true).trim()
 
-                    if (container.contains($DOCKER_BACK)){
+                    if (container.contains(env.DOCKER_BACK)){
                         sh "docker stop $DOCKER_BACK"
                         sh "docker rm $DOCKER_BACK"
                         sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG"
