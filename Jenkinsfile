@@ -55,7 +55,7 @@ pipeline {
                 script {
                     def serveripaddress = "4.236.153.248"
                     def containerId = sh(script: "docker ps -qf name=$DOCKER_BACK", returnStdout: true).trim()
-                
+                    sleep(30)
 
 
                     def url = "http://${serveripaddress}:3021"
