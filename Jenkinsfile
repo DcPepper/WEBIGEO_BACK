@@ -90,7 +90,7 @@ pipeline {
        stage("Invoking another pipeline") {
             steps {
                 script {
-                    def main_pipeline = build job: 'WEBIGEO', parameters: [
+                    def main_pipeline = build job: 'WEBIGEO_CI_CD', parameters: [
                         booleanParam(name: 'Docker_Build_Back_End_Image', value: true),
                         booleanParam(name: 'Pushing_the_Back_End_image_to_DockerHub', value: true),
                         booleanParam(name: 'Deployment_in_webigeo', value: true)
