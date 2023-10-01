@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
         DOCKER_IMAGE = "my-django"
-        DOCKER_TAG = "test"
+        DOCKER_TAG = "pre"
         DOCKER_BACK = "Back_Container"
     }
     stages {
