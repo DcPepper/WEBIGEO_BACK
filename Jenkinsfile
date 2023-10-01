@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'Back_End'
+    }
     environment {
         DOCKER_IMAGE = "sqlite"
         DOCKER_TAG = "back_test"
