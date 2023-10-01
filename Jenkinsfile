@@ -3,8 +3,8 @@ pipeline {
         label 'Back_End'
     }
     environment {
-        DOCKER_IMAGE = "sqlite"
-        DOCKER_TAG = "back_test"
+        DOCKER_IMAGE = "my-django"
+        DOCKER_TAG = "test"
         DOCKER_BACK = "Back_Container"
     }
     stages {
@@ -76,6 +76,25 @@ pipeline {
             }
         }
         
+        stage('Pushing Back End image to DockerHub') {
+            environment
+            {
+                DOCKER_HUB_TOKEN = credentials("DOCKER_HUB_TOKEN") 
+            }
+
+            steps {
+
+                script {
+                    //env.DOCKER_HUB_TOKEN = DOCKER_HUB_TOKEN
+                    sh '''
+                    echo "docker login -u $DOCKER_ID -p $DOCKER_HUB_TOKEN"
+                    docker login -u "webigeo" -p "yP?5Q>Ktp+YA%#_"
+                    sleep 10
+                    docker push "webigeo"/$DOCKER_IMAGE:$DOCKER_TAG
+                '''
+                }
+            }
+        }
 
         stage("Removing the container and Image") {
             steps {
@@ -91,14 +110,8 @@ pipeline {
 
        stage("Invoking another pipeline") {
             steps {
-                script {
-                    def main_pipeline = build job: 'WEBIGEO_CI_CD', parameters: [
-                        booleanParam(name: 'Docker_Build_Back_End_Image', value: true),
-                        booleanParam(name: 'Pushing_the_Back_End_image_to_DockerHub', value: true),
-                        booleanParam(name: 'Deployment_in_webigeo', value: true)
-                    ]
-                    main_pipeline.waitForCompletion("Waiting for the WEBIGEO pipeline to complete")
-                }
+                echo "Triggering another pipeline job"
+                build job: 'WEBIGEO_CI_CD', parameters: [string(name: 'param1', value: "value1")], wait: true
             }
         }
 
