@@ -55,7 +55,7 @@ pipeline {
         stage("Testing the containers") {
             steps {
                 script {
-                    def serveripaddress = "4.236.153.248"
+                    def serveripaddress = "4.180.124.152"
                     def containerId = sh(script: "docker ps -qf name=$DOCKER_BACK", returnStdout: true).trim()
                     sleep(30)
 
