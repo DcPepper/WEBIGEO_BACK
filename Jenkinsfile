@@ -1,8 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        label 'Back_End'
+    }
     environment {
-        DOCKER_IMAGE = "sqlite"
-        DOCKER_TAG = "back_test"
+        DOCKER_IMAGE = "my-django"
+        DOCKER_TAG = "pre"
         DOCKER_BACK = "Back_Container"
     }
     stages {
@@ -17,7 +19,7 @@ pipeline {
                     if (container.contains(env.DOCKER_BACK)){
                         sh "docker stop $DOCKER_BACK"
                         sh "docker rm $DOCKER_BACK"
-                        sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG"
+                        sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG || true"
                     }
                     else{
                         echo "The container is clean"
@@ -53,9 +55,9 @@ pipeline {
         stage("Testing the containers") {
             steps {
                 script {
-                    def serveripaddress = "4.236.153.248"
+                    def serveripaddress = "4.180.124.152"
                     def containerId = sh(script: "docker ps -qf name=$DOCKER_BACK", returnStdout: true).trim()
-                
+                    sleep(30)
 
 
                     def url = "http://${serveripaddress}:3021"
@@ -74,6 +76,25 @@ pipeline {
             }
         }
         
+        stage('Pushing Back End image to DockerHub') {
+            environment
+            {
+                DOCKER_HUB_TOKEN = credentials("DOCKER_HUB_TOKEN") 
+            }
+
+            steps {
+
+                script {
+                    //env.DOCKER_HUB_TOKEN = DOCKER_HUB_TOKEN
+                    sh '''
+                    echo "docker login -u $DOCKER_ID -p $DOCKER_HUB_TOKEN"
+                    docker login -u "webigeo" -p "yP?5Q>Ktp+YA%#_"
+                    sleep 10
+                    docker push "webigeo"/$DOCKER_IMAGE:$DOCKER_TAG
+                '''
+                }
+            }
+        }
 
         stage("Removing the container and Image") {
             steps {
@@ -89,14 +110,8 @@ pipeline {
 
        stage("Invoking another pipeline") {
             steps {
-                script {
-                    def main_pipeline = build job: 'WEBIGEO', parameters: [
-                        booleanParam(name: 'Docker_Build_Back_End_Image', value: true),
-                        booleanParam(name: 'Pushing_the_Back_End_image_to_DockerHub', value: true),
-                        booleanParam(name: 'Deployment_in_webigeo', value: true)
-                    ]
-                    main_pipeline.waitForCompletion("Waiting for the WEBIGEO pipeline to complete")
-                }
+                echo "Triggering another pipeline job"
+                build job: 'WEBIGEO_CI_CD', parameters: [string(name: 'param1', value: "value1")], wait: true
             }
         }
 
