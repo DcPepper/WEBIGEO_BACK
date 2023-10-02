@@ -6,6 +6,7 @@ pipeline {
         DOCKER_IMAGE = "my-django"
         DOCKER_TAG = "pre"
         DOCKER_BACK = "Back_Container"
+        DOCKER_ID = "webigeo"
     }
     stages {
         
@@ -36,7 +37,7 @@ pipeline {
                     //sh "docker stop $DOCKER_BACK"
                     //sh "docker rm $DOCKER_BACK"
                     echo "Building Docker image: $DOCKER_IMAGE:$DOCKER_TAG"
-                    sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG -f Dockerfile . --no-cache"
+                    sh "docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG -f Dockerfile . --no-cache"
                 }
             }
         }
@@ -45,7 +46,7 @@ pipeline {
             steps {
                 script {
                     echo "Running Docker container: $DOCKER_BACK"
-                    sh "docker run -d -p 3021:8000 --name $DOCKER_BACK -v /mnt/data:/mnt/data $DOCKER_IMAGE:$DOCKER_TAG"
+                    sh "docker run -d -p 3021:8000 --name $DOCKER_BACK -v /mnt/data:/mnt/data $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG"
                     sh "docker ps"
                 }
             }
