@@ -103,8 +103,8 @@ pipeline {
                     echo "Stopping and removing Docker container: $DOCKER_BACK"
                     sh "docker stop $DOCKER_BACK"
                     sh "docker rm $DOCKER_BACK"
-                    echo "Removing Docker image: $DOCKER_IMAGE:$DOCKER_TAG"
-                    sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG"
+                    echo "Removing Docker image: $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG"
+                    sh "docker rmi $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG"
                 }
             }
         }
