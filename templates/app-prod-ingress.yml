@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-{{ .Values.mount }} 
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - secretName: app-secret
+      hosts:
+        - {{ .Values.API_DNS}}
+  rules:
+  - host: {{ .Values.API_DNS}}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+             service:
+              name: django-service
+              port:
+                number: 8000
