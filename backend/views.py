@@ -7,7 +7,12 @@ from django.db.models import Q
 from rest_framework.response import Response
 
 from functools import reduce
+from rest_framework.exceptions import NotFound
 
+def error404(request, exception, template_name="404.html"):
+    response = render_to_response(template_name)
+    response.status_code = 404
+    return response
 
 class CountryViewSet(ReadOnlyModelViewSet):
     """
@@ -56,9 +61,20 @@ class RecordViewSet(ModelViewSet):
         quiz_nbr = quiz.nbr_question
 
         # Compare the value of 'points' in the form data with the 'nbr' value of the Quiz object.
-        points = int(form_data['points'])
-        if points > quiz_nbr:
-            return Response({'error': "Points cannot be greater than the quiz maximum."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            points = int(form_data['points'])
+            if points < 0 or points > quiz_nbr:
+                return Response({'error': "Points cannot be greater than the quiz maximum."}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'error': "Wrong data type points."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if it is a valid time
+        try:
+            time = int(form_data['time'])
+            if time <= 0:
+                return Response({'error': "Time invalid"}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'error': "Wrong data type time."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Create the Record object
         serializer = self.get_serializer(data=form_data)

@@ -52,13 +52,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+# To modify when production
+CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']
 
+"""
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
      'http://192.168.1.32:3000',
      'http://192.168.1.28:3000',
      'http://192.168.1.14:3000'
 ]
+"""
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -87,7 +93,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': '/mnt/data/db.sqlite3',
     }
 }
 
@@ -139,3 +145,6 @@ REST_FRAMEWORK = {
     
 }
 
+# SSL / TLS
+
+#SECURE_SSL_REDIRECT = True

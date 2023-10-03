@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from backend import views
 from rest_framework import routers, serializers, viewsets
+from django.conf.urls import (
+  handler400, handler403, handler404, handler500)
+
+#handler404 = views.error404
 
 router = routers.DefaultRouter()
 router.register(r'country', views.CountryViewSet, basename='country')
