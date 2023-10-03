@@ -1,5 +1,5 @@
 FROM python:3.9
-ARG BRANCH=main
+ARG BRANCH=dev
 RUN apt install git
 
 RUN git clone --branch=$BRANCH https://github.com/WEBIGEO-ALTEN/WEBIGEO_BACK.git
